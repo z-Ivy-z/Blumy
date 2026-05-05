@@ -1,90 +1,326 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blumy</title>
-    <link rel="icon" type="img/png" href="./IMG/cromatico.png">
-    <link rel="stylesheet" href="./style.css">
+<meta charset="UTF-8">
+<title>ArteMarket</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f5f5f5;
+    }
+
+    header {
+        background: #222;
+        color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    input {
+        padding: 8px;
+        width: 250px;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .container {
+        display: flex;
+    }
+
+    .productos {
+        width: 70%;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .producto {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .producto img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .producto button {
+        margin-top: 10px;
+        padding: 8px;
+        width: 100%;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .carrito {
+        width: 30%;
+        background: #fff;
+        padding: 20px;
+        border-left: 2px solid #ddd;
+    }
+
+    .item {
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+    .total {
+        font-weight: bold;
+        margin-top: 15px;
+    }
+    .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-contenido {
+    background: white;
+    width: 700px;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.lado-img img {
+    width: 300px;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lado-config {
+    padding: 20px;
+    flex: 1;
+}
+
+.opciones button {
+    margin: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.opciones button.activo {
+    background: #28a745;
+    color: white;
+}
+
+#confirmarBtn {
+    margin-top: 15px;
+    padding: 10px;
+    width: 100%;
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+#confirmarBtn.activo {
+    opacity: 1;
+}
+</style>
+</head>
 <body>
-    <header class="top">
-        <nav>
-        <!--    <img src="./IMG/cromatico.png" alt="Icon"> -->
-            <h2>Blumy</h2>
-                <ul>
-                    <li><a href="">
-                        <button>Inicio</button>
-                    </a></li>
-                    <li><a href="">
-                        <button>Comprar</button>
-                    </a></li>
-                    <li><a href="">
-                        <button>🛒</button>
-                    </a></li>
-                    <li><a href="">
-                        <button>🆘</button>
-                    </a></li>
-                </ul>
-        </nav>
-    </header>
-    
-    <section class="main">
-        <div class="hero">
-            <h1>Pigment</h1>
-            <h2>-Todo para tu siguiente obra maestra✨🎨</h2>
-            <p>Óleos, acrilicos, pinceles, lienzos y más. Envío 24h en CDMX</p>
-            <a href="">
-                <button>Comenzar</button>
-            </a>
-        </div>
-        <div class="hero-trust">
-            <div class="hero-card">
 
-            </div>
-            <div class="hero-card">
-                <h2>Envio gratis</h2>
-                <p>Compras > $800 </p>
-            </div>
-            <div class="hero-card">
-                <h2>Garantia</h2>
-                <p>30 dias</p>
-            </div>
-            <!-- ? Necesitaria cifrado-->
-            <div class="hero-card">
-                <h2>Pago seguro</h2>
-                <p>"Metodos de pago"</p>
-            </div>
-            <div class="hero-card">
-                <h2>+5000</h2>
-                <p>"Artistas felices"</p>
-            </div>
-        </div>
-        <div class="hero-trendy">
+<header>
+    <h1>🎨 ArteMarket</h1>
+    <input type="text" id="buscador" placeholder="Buscar arte...">
+</header>
 
+<div class="container">
+    <div class="productos" id="listaProductos"></div>
+
+    <div class="carrito">
+        <h2>🛒 Carrito</h2>
+        <div id="itemsCarrito"></div>
+        <div class="total">Total: $<span id="total">0</span></div>
+    </div>
+</div>
+<div id="modalPersonalizar" class="modal">
+    <div class="modal-contenido">
+        
+        <div class="lado-img">
+            <img id="imgProducto">
         </div>
-        <div class="hero-categor y">
-            <div class="hero-circle">
-                <h3></h3>
-            </div>
-            <div class="hero-circle">
-                <h3>Óleos</h3>
-            </div>
-            <div class="hero-circle">
-                <h3>Acrilicos</h3>
-            </div>
-            <div class="hero-circle">
-                <h3>Acuarelas</h3>
-            </div>
-            <div class="hero-circle">
-                <h3>Pinceles</h3>
-            </div>
-            <div class="hero-circle">
-                <h3>Lienzos</h3>
-            </div>
-            <div class="hero-circle">
-                <h3>Sketchbooks</h3>
-            </div>
+
+        <div class="lado-config">
+            <h2>Personalizar pintura</h2>
+
+            <h4>Tipo:</h4>
+            <div id="tipoOpciones"></div>
+
+            <h4>Color:</h4>
+            <div id="colorOpciones"></div>
+
+            <h4>Tamaño:</h4>
+            <div id="tamanoOpciones"></div>
+
+            <button id="confirmarBtn" disabled>Agregar al carrito</button>
         </div>
-    </section>
+
+    </div>
+</div>
+
+<script>
+const productos = [
+    { id: 1, nombre: "Pintura abstracta", precio: 500, imagen: "https://picsum.photos/200?1" },
+    { id: 2, nombre: "Escultura moderna", precio: 1200, imagen: "https://picsum.photos/200?2" },
+    { id: 3, nombre: "Ilustración digital", precio: 300, imagen: "https://picsum.photos/200?3" },
+    { id: 4, nombre: "Cuadro al óleo", precio: 800, imagen: "https://picsum.photos/200?4" },
+    { id: 5, nombre: "Fotografía artística", precio: 450, imagen: "https://picsum.photos/200?5" },
+    { id: 6, nombre: "Pintura", precio: 200, imagen: "https://picsum.photos/200?6", personalizable: true }
+];
+
+let carrito = [];
+
+function mostrarProductos(lista) {
+    const contenedor = document.getElementById("listaProductos");
+    contenedor.innerHTML = "";
+
+    lista.forEach(p => {
+        contenedor.innerHTML += `
+            <div class="producto">
+                <img src="${p.imagen}">
+                <h3>${p.nombre}</h3>
+                <p>$${p.precio}</p>
+                <button onclick="agregarAlCarrito(${p.id})">Agregar</button>
+            </div>
+        `;
+    });
+}
+
+function agregarAlCarrito(id) {
+    const producto = productos.find(p => p.id === id);
+
+    if (producto.personalizable) {
+        abrirPersonalizador(producto);
+        return;
+    }
+
+    carrito.push(producto);
+    actualizarCarrito();
+}
+
+function actualizarCarrito() {
+    const contenedor = document.getElementById("itemsCarrito");
+    const total = document.getElementById("total");
+
+    contenedor.innerHTML = "";
+    let suma = 0;
+
+    carrito.forEach(item => {
+        suma += item.precio;
+        contenedor.innerHTML += `
+            <div class="item">
+                ${item.nombre} - $${item.precio}
+                ${item.descripcion ? "<br><small>"+item.descripcion+"</small>" : ""}
+            </div>
+        `;
+    });
+
+    total.textContent = suma;
+}
+
+// Buscador
+document.getElementById("buscador").addEventListener("input", e => {
+    const texto = e.target.value.toLowerCase();
+    const filtrados = productos.filter(p =>
+        p.nombre.toLowerCase().includes(texto)
+    );
+    mostrarProductos(filtrados);
+});
+
+// Inicial
+mostrarProductos(productos);
+let seleccion = {
+    tipo: null,
+    color: null,
+    tamano: null
+};
+
+let productoActual = null;
+
+function abrirPersonalizador(producto) {
+    productoActual = producto;
+    seleccion = { tipo: null, color: null, tamano: null };
+
+    document.getElementById("modalPersonalizar").style.display = "flex";
+    document.getElementById("imgProducto").src = producto.imagen;
+
+    crearOpciones("tipoOpciones", ["Acrílica", "Óleo", "Acuarela"], "tipo");
+    crearOpciones("colorOpciones", ["Rojo","Naranja","Amarillo","Verde","Azul","Índigo","Violeta"], "color");
+    crearOpciones("tamanoOpciones", ["1L", "500ml", "150ml"], "tamano");
+
+    actualizarBoton();
+}
+
+function crearOpciones(contenedorId, opciones, tipo) {
+    const cont = document.getElementById(contenedorId);
+    cont.innerHTML = "";
+    cont.className = "opciones";
+
+    opciones.forEach(op => {
+        const btn = document.createElement("button");
+        btn.textContent = op;
+
+        btn.onclick = () => {
+            seleccion[tipo] = op;
+
+            [...cont.children].forEach(b => b.classList.remove("activo"));
+            btn.classList.add("activo");
+
+            actualizarBoton();
+        };
+
+        cont.appendChild(btn);
+    });
+}
+
+function actualizarBoton() {
+    const btn = document.getElementById("confirmarBtn");
+
+    if (seleccion.tipo && seleccion.color && seleccion.tamano) {
+        btn.disabled = false;
+        btn.classList.add("activo");
+    } else {
+        btn.disabled = true;
+        btn.classList.remove("activo");
+    }
+}
+
+document.getElementById("confirmarBtn").onclick = () => {
+    if (!seleccion.tipo || !seleccion.color || !seleccion.tamano) return;
+
+    carrito.push({
+        ...productoActual,
+        descripcion: `${seleccion.tipo} - ${seleccion.color} - ${seleccion.tamano}`
+    });
+
+    actualizarCarrito();
+    cerrarModal();
+};
+
+function cerrarModal() {
+    document.getElementById("modalPersonalizar").style.display = "none";
+}
+</script>
+
 </body>
 </html>
